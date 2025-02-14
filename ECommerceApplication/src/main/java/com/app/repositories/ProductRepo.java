@@ -11,5 +11,5 @@ import com.app.entites.Product;
 public interface ProductRepo extends JpaRepository<Product, Long> {
 
 	Page<Product> findByProductNameLike(String keyword, Pageable pageDetails);
-
+	Page<Product> findByBrandBrandNameLike(String keyword, Pageable pageDetails);
 }
