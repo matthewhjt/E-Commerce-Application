@@ -22,7 +22,7 @@ public class Brand {
     private Long brandId;
 
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
-    private List<Product> products = new ArrayList<>();
+    private List<Product> products;
 
     @Column(unique = true)
     private String brandName;
