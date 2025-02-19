@@ -1,12 +1,11 @@
 package com.app.services;
 
-import java.io.IOException;
-
-import org.springframework.web.multipart.MultipartFile;
-
 import com.app.entites.Product;
 import com.app.payloads.ProductDTO;
 import com.app.payloads.ProductResponse;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 public interface ProductService {
 

@@ -1,8 +1,14 @@
 package com.app.services;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.app.config.AppConstants;
+import com.app.entites.*;
+import com.app.exceptions.APIException;
+import com.app.exceptions.ResourceNotFoundException;
+import com.app.payloads.*;
+import com.app.repositories.AddressRepo;
+import com.app.repositories.RoleRepo;
+import com.app.repositories.UserRepo;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -13,24 +19,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.app.config.AppConstants;
-import com.app.entites.Address;
-import com.app.entites.Cart;
-import com.app.entites.CartItem;
-import com.app.entites.Role;
-import com.app.entites.User;
-import com.app.exceptions.APIException;
-import com.app.exceptions.ResourceNotFoundException;
-import com.app.payloads.AddressDTO;
-import com.app.payloads.CartDTO;
-import com.app.payloads.ProductDTO;
-import com.app.payloads.UserDTO;
-import com.app.payloads.UserResponse;
-import com.app.repositories.AddressRepo;
-import com.app.repositories.RoleRepo;
-import com.app.repositories.UserRepo;
-
-import jakarta.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service

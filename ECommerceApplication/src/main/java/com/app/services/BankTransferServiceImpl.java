@@ -1,14 +1,10 @@
 package com.app.services;
 
 import com.app.entites.BankTransfer;
-import com.app.entites.Category;
-import com.app.entites.Product;
 import com.app.exceptions.APIException;
 import com.app.exceptions.ResourceNotFoundException;
 import com.app.payloads.BankTransferDTO;
 import com.app.payloads.BankTransferResponse;
-import com.app.payloads.CategoryDTO;
-import com.app.payloads.CategoryResponse;
 import com.app.repositories.BankTransferRepo;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;

@@ -1,13 +1,12 @@
 package com.app.payloads;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.app.entites.Role;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor

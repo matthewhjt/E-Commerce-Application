@@ -1,7 +1,11 @@
 package com.app.security;
 
-import java.io.IOException;
-
+import com.app.services.UserDetailsServiceImpl;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,13 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.app.services.UserDetailsServiceImpl;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Service
 public class JWTFilter extends OncePerRequestFilter {
