@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class BankTransferDTO {
     private Long bankTransferID;
     private String bankTransferName;
-    private String bankTransferAddress;
+    private String bankTransferNumber;
 }
