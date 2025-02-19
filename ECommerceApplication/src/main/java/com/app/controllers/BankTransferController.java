@@ -22,7 +22,7 @@ public class BankTransferController {
     @Autowired
     private BankTransferService bankTransferService;
 
-    @GetMapping("/admin/banktransfers")
+    @GetMapping("/public/banktransfers")
     public ResponseEntity<BankTransferResponse> getBankTransfers(
             @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
             @RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
