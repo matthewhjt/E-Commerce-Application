@@ -8,6 +8,15 @@ import java.util.stream.Collectors;
 
 import com.app.entites.*;
 import com.app.repositories.*;
+import com.app.entites.*;
+import com.app.exceptions.APIException;
+import com.app.exceptions.ResourceNotFoundException;
+import com.app.payloads.OrderDTO;
+import com.app.payloads.OrderItemDTO;
+import com.app.payloads.OrderResponse;
+import com.app.repositories.*;
+import jakarta.transaction.Transactional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +32,11 @@ import com.app.payloads.OrderItemDTO;
 import com.app.payloads.OrderResponse;
 
 import jakarta.transaction.Transactional;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -45,6 +59,9 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	public CartItemRepo cartItemRepo;
+
+	@Autowired
+	public BankTransferRepo bankTransferRepo;
 
 	@Autowired
 	public UserService userService;
@@ -75,6 +92,11 @@ public class OrderServiceImpl implements OrderService {
 
 		if (!coupon.get().isActive()) {
 			throw new APIException("Invalid coupon");
+
+		BankTransfer bankTransfer = bankTransferRepo.findBankTransferByBankTransferName(paymentMethod);
+
+		if (bankTransfer == null) {
+			throw new ResourceNotFoundException("BankTransfer", "paymentMethod", paymentMethod);
 		}
 
 		Order order = new Order();
@@ -87,7 +109,7 @@ public class OrderServiceImpl implements OrderService {
 
 		Payment payment = new Payment();
 		payment.setOrder(order);
-		payment.setPaymentMethod(paymentMethod);
+		payment.setBankTransfer(bankTransfer);
 
 		payment = paymentRepo.save(payment);
 

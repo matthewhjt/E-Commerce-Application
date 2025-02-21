@@ -1,12 +1,5 @@
 package com.app.services;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.app.entites.Address;
 import com.app.entites.User;
 import com.app.exceptions.APIException;
@@ -15,8 +8,13 @@ import com.app.payloads.AddressDTO;
 import com.app.payloads.CreateAddressDTO;
 import com.app.repositories.AddressRepo;
 import com.app.repositories.UserRepo;
-
 import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service

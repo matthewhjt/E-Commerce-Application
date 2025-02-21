@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentDTO {
-	private Long paymentId;
-	private BankTransferDTO bankTransfer;
-
+public class BankTransferDTO {
+    private Long bankTransferID;
+    private String bankTransferName;
+    private String bankTransferNumber;
 }
