@@ -40,7 +40,7 @@ public class BankTransferController {
 
     @PutMapping("/admin/banktransfers/{banktransferId}")
     public ResponseEntity<BankTransferDTO> updateBankTransfer(@RequestBody BankTransfer bankTransfer,
-                                                      @PathVariable Long banktransferId) {
+                                                              @PathVariable Long banktransferId) {
         BankTransferDTO bankTransferDTO = bankTransferService.updateBankTransfer(bankTransfer, banktransferId);
 
         return new ResponseEntity<BankTransferDTO>(bankTransferDTO, HttpStatus.OK);
