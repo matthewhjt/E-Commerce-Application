@@ -2,11 +2,8 @@ package com.app.controllers;
 
 import com.app.config.AppConstants;
 import com.app.entites.BankTransfer;
-import com.app.entites.Category;
 import com.app.payloads.BankTransferDTO;
 import com.app.payloads.BankTransferResponse;
-import com.app.payloads.CategoryDTO;
-import com.app.payloads.CategoryResponse;
 import com.app.services.BankTransferService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;

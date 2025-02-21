@@ -1,8 +1,13 @@
 package com.app.services;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.app.entites.Category;
+import com.app.entites.Product;
+import com.app.exceptions.APIException;
+import com.app.exceptions.ResourceNotFoundException;
+import com.app.payloads.CategoryDTO;
+import com.app.payloads.CategoryResponse;
+import com.app.repositories.CategoryRepo;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,15 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.app.entites.Category;
-import com.app.entites.Product;
-import com.app.exceptions.APIException;
-import com.app.exceptions.ResourceNotFoundException;
-import com.app.payloads.CategoryDTO;
-import com.app.payloads.CategoryResponse;
-import com.app.repositories.CategoryRepo;
-
-import jakarta.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
