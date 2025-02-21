@@ -64,6 +64,9 @@ public class OrderServiceImpl implements OrderService {
 	public BankTransferRepo bankTransferRepo;
 
 	@Autowired
+	public ShipmentRepo shipmentRepo;
+
+	@Autowired
 	public UserService userService;
 
 	@Autowired
@@ -71,32 +74,41 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	public ModelMapper modelMapper;
+
     @Autowired
     private CouponRepo couponRepo;
 
-
 	@Override
-	public OrderDTO placeOrder(String email, Long cartId, String paymentMethod, Long couponId) {
+	public OrderDTO placeOrder(String email, Long cartId, String paymentMethod, Long couponId, String shipmentType) {
 
 		Cart cart = cartRepo.findCartByEmailAndCartId(email, cartId);
 
 		if (cart == null) {
 			throw new ResourceNotFoundException("Cart", "cartId", cartId);
 		}
+		Optional<Coupon> coupon = Optional.empty();
+		if (couponId != -1) {
+			coupon = couponRepo.findById(couponId);
 
-		Optional<Coupon> coupon = couponRepo.findById(couponId);
+			if (coupon.isEmpty()) {
+				throw new ResourceNotFoundException("Coupon", "couponId", couponId);
+			}
 
-		if (coupon.isEmpty()) {
-			throw new ResourceNotFoundException("Coupon", "couponId", couponId);
+			if (!coupon.get().isActive()) {
+				throw new APIException("Invalid coupon");
+			}
 		}
 
-		if (!coupon.get().isActive()) {
-			throw new APIException("Invalid coupon");
+
 
 		BankTransfer bankTransfer = bankTransferRepo.findBankTransferByBankTransferName(paymentMethod);
-
 		if (bankTransfer == null) {
 			throw new ResourceNotFoundException("BankTransfer", "paymentMethod", paymentMethod);
+		}
+
+		Shipment shipment = shipmentRepo.findShipmentByShipmentType(shipmentType);
+		if (shipment == null) {
+			throw new ResourceNotFoundException("Shipment", "shipmentType", shipmentType);
 		}
 
 		Order order = new Order();
@@ -104,8 +116,17 @@ public class OrderServiceImpl implements OrderService {
 		order.setEmail(email);
 		order.setOrderDate(LocalDate.now());
 
-		order.setTotalAmount(cart.getTotalPrice() - coupon.get().getDiscount());
+		if (coupon.isPresent()) {
+			order.setTotalAmount(cart.getTotalPrice() - coupon.get().getDiscount());
+		} else {
+			order.setTotalAmount(cart.getTotalPrice());
+		}
+
+		order.setTotalAmount(order.getTotalAmount() + shipment.getPrice());
+
 		order.setOrderStatus("Order Accepted !");
+		order.setShipment(shipment);
+		order.setShipmentStatus("PENDING");
 
 		Payment payment = new Payment();
 		payment.setOrder(order);

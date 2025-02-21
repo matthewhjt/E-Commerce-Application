@@ -33,7 +33,12 @@ public class Order {
 	@OneToOne
 	@JoinColumn(name = "payment_id")
 	private Payment payment;
+
+	@ManyToOne
+	@JoinColumn(name = "shipment_id")
+	private Shipment shipment;
 	
 	private Double totalAmount;
 	private String orderStatus;
+	private String shipmentStatus;
 }

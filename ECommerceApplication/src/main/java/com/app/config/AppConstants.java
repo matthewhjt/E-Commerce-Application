@@ -11,6 +11,7 @@ public class AppConstants {
 	public static final String SORT_COUPONS_BY = "couponId";
 	public static final String SORT_BRANDS_BY = "brandId";
 	public static final String SORT_BANK_TRANSFERS_BY = "bankTransferId";
+	public static final String SORT_SHIPMENTS_BY = "shipmentId";
 	public static final String SORT_DIR = "asc";
 	public static final Long ADMIN_ID = 101L;
 	public static final Long USER_ID = 102L;
