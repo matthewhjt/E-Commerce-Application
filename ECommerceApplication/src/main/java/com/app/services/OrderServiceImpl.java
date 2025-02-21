@@ -1,5 +1,13 @@
 package com.app.services;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import com.app.entites.*;
+import com.app.repositories.*;
 import com.app.entites.*;
 import com.app.exceptions.APIException;
 import com.app.exceptions.ResourceNotFoundException;
@@ -8,6 +16,7 @@ import com.app.payloads.OrderItemDTO;
 import com.app.payloads.OrderResponse;
 import com.app.repositories.*;
 import jakarta.transaction.Transactional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +24,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import com.app.exceptions.APIException;
+import com.app.exceptions.ResourceNotFoundException;
+import com.app.payloads.OrderDTO;
+import com.app.payloads.OrderItemDTO;
+import com.app.payloads.OrderResponse;
+
+import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -54,15 +71,27 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	public ModelMapper modelMapper;
+    @Autowired
+    private CouponRepo couponRepo;
+
 
 	@Override
-	public OrderDTO placeOrder(String email, Long cartId, String paymentMethod) {
+	public OrderDTO placeOrder(String email, Long cartId, String paymentMethod, Long couponId) {
 
 		Cart cart = cartRepo.findCartByEmailAndCartId(email, cartId);
 
 		if (cart == null) {
 			throw new ResourceNotFoundException("Cart", "cartId", cartId);
 		}
+
+		Optional<Coupon> coupon = couponRepo.findById(couponId);
+
+		if (coupon.isEmpty()) {
+			throw new ResourceNotFoundException("Coupon", "couponId", couponId);
+		}
+
+		if (!coupon.get().isActive()) {
+			throw new APIException("Invalid coupon");
 
 		BankTransfer bankTransfer = bankTransferRepo.findBankTransferByBankTransferName(paymentMethod);
 
@@ -75,7 +104,7 @@ public class OrderServiceImpl implements OrderService {
 		order.setEmail(email);
 		order.setOrderDate(LocalDate.now());
 
-		order.setTotalAmount(cart.getTotalPrice());
+		order.setTotalAmount(cart.getTotalPrice() - coupon.get().getDiscount());
 		order.setOrderStatus("Order Accepted !");
 
 		Payment payment = new Payment();

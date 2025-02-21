@@ -1,5 +1,7 @@
 package com.app.entites;
 
+import java.util.ArrayList;
+import java.util.List;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -35,6 +37,10 @@ public class Product {
 	private double price;
 	private double discount;
 	private double specialPrice;
+
+	@ManyToOne
+	@JoinColumn(name = "brand_id")
+	private Brand brand;
 
 	@ManyToOne
 	@JoinColumn(name = "category_id")
